@@ -11,6 +11,7 @@
         <module>account-dao</module>
         <module>jpa-hibernate-util</module>
         <module>hello-persistence-xml</module>
+        <module>hello-jpa-entity</module>
     </modules>
     <packaging>pom</packaging>
 
