@@ -8,8 +8,9 @@
     <artifactId>jpa-hibernate-exercises</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>account-dao-exercise</module>
+        <module>account-dao</module>
         <module>jpa-hibernate-util</module>
+        <module>jpa-persinstence-xml</module>
     </modules>
     <packaging>pom</packaging>
 
