@@ -10,6 +10,6 @@ It is important to have a different type of activities, which purpose is improvi
 
 ***An exercise** is a predefined task that you continuously implement to improve a certain skill* :muscle:
 ##
-* [Account DAO](https://github.com/boy4uck/jpa-hibernate-exercises/tree/master/account-dao-exercise)
 * [Hello persistence.xml](https://github.com/boy4uck/jpa-hibernate-exercises/tree/master/jpa-persinstence-xml)
 * [Hello JPA entity](https://github.com/boy4uck/jpa-hibernate-exercises/tree/master/hello-jpa-entity)
+* [Account DAO](https://github.com/boy4uck/jpa-hibernate-exercises/tree/master/account-dao-exercise)
