@@ -10,7 +10,7 @@
     <modules>
         <module>account-dao</module>
         <module>jpa-hibernate-util</module>
-        <module>jpa-persinstence-xml</module>
+        <module>hello-persistence-xml</module>
     </modules>
     <packaging>pom</packaging>
 
