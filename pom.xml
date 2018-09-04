@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>account-dao</module>
-        <module>jpa-hibernate-util</module>
+        <module>jpa-hibernate-exercises-util</module>
         <module>hello-persistence-xml</module>
         <module>hello-jpa-entity</module>
     </modules>

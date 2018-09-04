@@ -9,7 +9,7 @@
         <artifactId>jpa-hibernate-exercises</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jpa-hibernate-util</artifactId>
+    <artifactId>jpa-hibernate-exercises-util</artifactId>
 
     <dependencies>
         <dependency>
