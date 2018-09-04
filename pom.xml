@@ -12,6 +12,7 @@
         <module>jpa-hibernate-exercises-util</module>
         <module>hello-persistence-xml</module>
         <module>hello-jpa-entity</module>
+        <module>jpa-hibernate-exercises-model</module>
     </modules>
     <packaging>pom</packaging>
 
