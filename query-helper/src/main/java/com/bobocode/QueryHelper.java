@@ -31,6 +31,6 @@ public class QueryHelper {
      * @return query result specified by type T
      */
     public <T> T readWithinTx(Function<EntityManager, T> entityManagerConsumer) {
-        throw new UnsupportedOperationException("I'm waiting for you to do your job and make me work ;)");
+        throw new UnsupportedOperationException("I'm waiting for you to do your job and make me work ;)"); // todo:
     }
 }
