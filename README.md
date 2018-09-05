@@ -15,3 +15,4 @@ It is important to have a different type of activities, which purpose is improvi
 * [Account DAO](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/account-dao)
 * [Query helper](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/query-helper)
 * [Employee profile](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/employee-profile)
+* [Photo comment DAO](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/photo-comment-dao)
