@@ -1,29 +1,32 @@
 package com.bobocode.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * todo:
- * - implement not argument constructor
- * - implement getters and setters
- * - implement equals and hashCode based on identifier field
- *
- * - configure JPA entity
- * - specify table name: "photo"
- * - configure auto generated identifier
- * - configure not nullable columns: url, description
- *
- * - initialize field comments
- * - map relation between Photo and PhotoComment on the child side
- */
+@NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "photo")
 public class Photo {
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(nullable = false)
     private String url;
+
+    @Column(nullable = false)
     private String description;
-    private List<PhotoComment> comments;
+
+    @OneToMany(mappedBy = "photo")
+    private List<PhotoComment> comments = new ArrayList<>();
+
 }
