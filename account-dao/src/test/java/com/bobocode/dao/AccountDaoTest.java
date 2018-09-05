@@ -2,7 +2,7 @@ package com.bobocode.dao;
 
 import com.bobocode.exception.AccountDaoException;
 import com.bobocode.model.Account;
-import com.bobocode.util.TestDataGenerator;
+import com.bobocode.utils.TestDataGenerator;
 import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
