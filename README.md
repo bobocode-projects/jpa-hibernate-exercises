@@ -13,4 +13,5 @@ It is important to have a different type of activities, which purpose is improvi
 * [Hello persistence.xml](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/hello-persistence-xml)
 * [Hello JPA entity](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/hello-jpa-entity)
 * [Account DAO](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/account-dao)
+* [Query helper](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/query-helper)
 * [Employee profile](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/employee-profile)
