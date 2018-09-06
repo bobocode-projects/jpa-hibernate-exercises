@@ -4,6 +4,7 @@ import com.bobocode.model.Author;
 import com.bobocode.model.Book;
 import com.bobocode.util.EntityManagerUtil;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +22,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class AuthorBookMappingTest {
     private static EntityManagerUtil emUtil;
+    private static EntityManagerFactory entityManagerFactory;
 
     @BeforeAll
-    public static void setup() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("BookAuthors");
+    static void setup() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("BookAuthors");
         emUtil = new EntityManagerUtil(entityManagerFactory);
+    }
+
+    @AfterAll
+    static void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test

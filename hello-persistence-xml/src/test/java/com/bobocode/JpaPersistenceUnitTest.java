@@ -1,6 +1,7 @@
 package com.bobocode;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,11 @@ public class JpaPersistenceUnitTest {
     @BeforeAll
     static void setup() {
         entityManagerFactory = Persistence.createEntityManagerFactory("TuttiFrutti");
+    }
+
+    @AfterAll
+    static void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test
