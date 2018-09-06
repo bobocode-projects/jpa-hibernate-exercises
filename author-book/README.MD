@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/bobocode-projects/resources/master/image/logo_transparent_background.png" height=50/>Author book exercise :muscle:
+# <img src="https://raw.githubusercontent.com/bobocode-projects/resources/master/image/logo_transparent_background.png" height=50/>Authors & books exercise :muscle:
 Improve your *JPA Many-To-Many* relationship mapping skills
 ### Task
 The relationship between `Author` and `Book` is many to many. In the database this relation is represented as two tables
