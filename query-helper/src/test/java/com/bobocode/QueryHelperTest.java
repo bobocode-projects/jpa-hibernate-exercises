@@ -4,6 +4,7 @@ import com.bobocode.exception.QueryHelperException;
 import com.bobocode.model.Account;
 import com.bobocode.util.EntityManagerUtil;
 import com.bobocode.util.TestDataGenerator;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,11 @@ public class QueryHelperTest {
         entityManagerFactory = Persistence.createEntityManagerFactory("Account");
         emUtil = new EntityManagerUtil(entityManagerFactory);
         queryHelper = new QueryHelper(entityManagerFactory);
+    }
+
+    @AfterAll
+    static void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test

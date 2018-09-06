@@ -4,6 +4,7 @@ import com.bobocode.model.Employee;
 import com.bobocode.model.EmployeeProfile;
 import com.bobocode.util.EntityManagerUtil;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +22,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class EmployeeProfileMappingTest {
     private static EntityManagerUtil emUtil;
+    private static EntityManagerFactory entityManagerFactory;
 
     @BeforeAll
-    public static void setup() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Employees");
+    static void setup() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("Employees");
         emUtil = new EntityManagerUtil(entityManagerFactory);
+    }
+
+    @AfterAll
+    static void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test

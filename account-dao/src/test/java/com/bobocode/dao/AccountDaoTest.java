@@ -4,6 +4,7 @@ import com.bobocode.exception.AccountDaoException;
 import com.bobocode.model.Account;
 import com.bobocode.util.TestDataGenerator;
 import org.hibernate.Session;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,11 @@ class AccountDaoTest {
     static void init() {
         emf = Persistence.createEntityManagerFactory("SingleAccountEntityH2");
         accountDao = new AccountDaoImpl(emf);
+    }
+
+    @AfterAll
+    static void destroy() {
+        emf.close();
     }
 
     @Test

@@ -4,6 +4,7 @@ import com.bobocode.dao.PhotoDao;
 import com.bobocode.dao.PhotoDaoImpl;
 import com.bobocode.model.Photo;
 import com.bobocode.util.EntityManagerUtil;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,19 +15,23 @@ import java.util.List;
 import static com.bobocode.util.PhotoTestDataGenerator.createListOfRandomPhotos;
 import static com.bobocode.util.PhotoTestDataGenerator.createRandomPhoto;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class PhotoDaoTest {
     private EntityManagerUtil emUtil;
     private PhotoDao photoDao;
+    private EntityManagerFactory entityManagerFactory;
 
     @BeforeEach
     public void setup() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("PhotoComments");
+        entityManagerFactory = Persistence.createEntityManagerFactory("PhotoComments");
         emUtil = new EntityManagerUtil(entityManagerFactory);
         photoDao = new PhotoDaoImpl(entityManagerFactory);
+    }
+
+    @AfterEach
+    public void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test

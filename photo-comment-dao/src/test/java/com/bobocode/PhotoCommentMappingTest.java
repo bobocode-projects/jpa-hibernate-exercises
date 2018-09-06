@@ -3,6 +3,7 @@ package com.bobocode;
 import com.bobocode.model.Photo;
 import com.bobocode.model.PhotoComment;
 import com.bobocode.util.EntityManagerUtil;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +19,17 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class PhotoCommentMappingTest {
     private static EntityManagerUtil emUtil;
+    private static EntityManagerFactory entityManagerFactory;
 
     @BeforeAll
     public static void setup() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("PhotoComments");
+        entityManagerFactory = Persistence.createEntityManagerFactory("PhotoComments");
         emUtil = new EntityManagerUtil(entityManagerFactory);
+    }
+
+    @AfterAll
+    static void destroy() {
+        entityManagerFactory.close();
     }
 
     @Test
