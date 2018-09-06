@@ -17,3 +17,4 @@ It is important to have a different type of activities, which purpose is improvi
 * [Employee profile](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/employee-profile)
 * [Photo comment DAO](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/photo-comment-dao)
 * [Authors & Books](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/author-book)
+* [Company products](https://github.com/bobocode-projects/jpa-hibernate-exercises/tree/master/company-products)

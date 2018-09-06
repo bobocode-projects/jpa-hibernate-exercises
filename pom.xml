@@ -17,6 +17,7 @@
         <module>query-helper</module>
         <module>photo-comment-dao</module>
         <module>author-book</module>
+        <module>company-products</module>
     </modules>
     <packaging>pom</packaging>
 
