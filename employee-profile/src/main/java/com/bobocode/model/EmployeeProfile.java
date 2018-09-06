@@ -16,7 +16,6 @@ import lombok.Setter;
  *
  * - map relation between {@link Employee} and {@link EmployeeProfile} using foreign_key column: "employee_id"
  * - configure a derived identifier. E.g. map "employee_id" column should be also a primary key (id) for this entity
- * - configure relation as mandatory (not optional)
  */
 @NoArgsConstructor
 @Getter
