@@ -16,6 +16,7 @@
         <module>employee-profile</module>
         <module>query-helper</module>
         <module>photo-comment-dao</module>
+        <module>author-book</module>
     </modules>
     <packaging>pom</packaging>
 
