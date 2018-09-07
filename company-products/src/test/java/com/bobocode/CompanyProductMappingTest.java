@@ -14,11 +14,12 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CompanyProductMappingTest {
@@ -208,5 +209,10 @@ public class CompanyProductMappingTest {
         Company foundCompany = companyDao.findByIdFetchProducts(company.getId());
         assertThat(foundCompany, equalTo(company));
         assertThat(foundCompany.getProducts(), hasItem(product));
+    }
+
+    @Test
+    public void testCompanySetProductsIsPrivate() throws NoSuchMethodException {
+        assertThat(Company.class.getDeclaredMethod("setProducts", List.class).getModifiers(), equalTo(Modifier.PRIVATE));
     }
 }
