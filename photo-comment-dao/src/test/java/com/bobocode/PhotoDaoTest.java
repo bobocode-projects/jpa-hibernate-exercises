@@ -80,11 +80,12 @@ public class PhotoDaoTest {
         Photo photo = createRandomPhoto();
         emUtil.performWithinTx(entityManager -> entityManager.persist(photo));
 
-        photoDao.addComment(photo, "Nice picture!");
+        photoDao.addComment(photo.getId(), "Nice picture!");
 
         emUtil.performWithinTx(entityManager -> {
             Photo managedPhoto = entityManager.find(Photo.class, photo.getId());
-            assertThat(managedPhoto.getComments(), containsInAnyOrder(photo.getComments().toArray()));
+            assertThat(managedPhoto.getComments(),
+                    hasItem(hasProperty("text", equalTo("Nice picture!"))));
         });
     }
 }
