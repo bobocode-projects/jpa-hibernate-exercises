@@ -39,9 +39,11 @@ public interface PhotoDao {
     void remove(Photo photo);
 
     /**
-     * Adds a new comment to an existing photo
-     * @param photo
+     * Adds a new comment to an existing photo. This method does not require additional SQL select methods to load
+     * {@link Photo}.
+     *
+     * @param photoId
      * @param comment
      */
-    void addComment(Photo photo, String comment);
+    void addComment(long photoId, String comment);
 }

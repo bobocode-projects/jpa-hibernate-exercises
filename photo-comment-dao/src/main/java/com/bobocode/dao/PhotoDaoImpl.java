@@ -36,7 +36,7 @@ public class PhotoDaoImpl implements PhotoDao {
     }
 
     @Override
-    public void addComment(Photo photo, String comment) {
+    public void addComment(long photoId, String comment) {
         throw new UnsupportedOperationException("Just do it!"); // todo
     }
 }
