@@ -1,9 +1,6 @@
 package com.bobocode.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,15 +39,18 @@ public class Photo {
     @Column(nullable = false)
     private String description;
 
+    @Setter(AccessLevel.PRIVATE)
     @OneToMany(mappedBy = "photo")
     private List<PhotoComment> comments = new ArrayList<>();
 
     public void addComment(PhotoComment comment) {
-        throw new UnsupportedOperationException("Make me work!");
+        comments.add(comment);
+        comment.setPhoto(this);
     }
 
     public void removeComment(PhotoComment comment) {
-        throw new UnsupportedOperationException("Make me work!");
+        comments.remove(comment);
+        comment.setPhoto(null);
     }
 
 }
