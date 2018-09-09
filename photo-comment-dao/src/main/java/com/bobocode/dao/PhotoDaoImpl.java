@@ -1,7 +1,6 @@
 package com.bobocode.dao;
 
 import com.bobocode.model.Photo;
-import com.bobocode.model.PhotoComment;
 import com.bobocode.util.EntityManagerUtil;
 
 import javax.persistence.EntityManagerFactory;
@@ -46,10 +45,7 @@ public class PhotoDaoImpl implements PhotoDao {
     }
 
     @Override
-    public void addComment(Photo photo, String comment) {
-        Objects.requireNonNull(photo, comment);
-        PhotoComment photoComment = new PhotoComment(comment, photo);
-        emUtil.performWithinTx(entityManager -> entityManager.persist(photoComment));
-        photo.getComments().add(photoComment);
+    public void addComment(long photoId, String comment) {
+        throw new UnsupportedOperationException("Just do it!"); // todo
     }
 }

@@ -2,7 +2,7 @@
 Improve your *Hibernate ORM* and *JPA One-To-Many* relationship mapping skills
 ### Task
 Each `Photo` has a list of `PhotoComments`. Comments cannot exits without photo associated. You job is to provide a mapping
-for this **bidirectional *ont to many* relationship** and **implement required DAO methods.** Please follow the instructions 
+for this **bidirectional *one to many* relationship** and **implement required DAO methods.** Please follow the instructions 
 in the todo sections. 
 
 To verify your mapping, run `PhotoCommentMappingTest.java`

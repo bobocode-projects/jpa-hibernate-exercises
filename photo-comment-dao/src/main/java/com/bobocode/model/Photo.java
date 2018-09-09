@@ -9,6 +9,22 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * todo:
+ * - implement not argument constructor
+ * - implement getters and setters
+ * - make a setter for field {@link Photo#comments} {@code private}
+ * - implement equals() and hashCode() based on identifier field
+ *
+ * - configure JPA entity
+ * - specify table name: "photo"
+ * - configure auto generated identifier
+ * - configure not nullable columns: url, description
+ *
+ * - initialize field comments
+ * - map relation between Photo and PhotoComment on the child side
+ * - implement helper methods {@link Photo#addComment(PhotoComment)} and {@link Photo#removeComment(PhotoComment)}
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -28,5 +44,13 @@ public class Photo {
 
     @OneToMany(mappedBy = "photo")
     private List<PhotoComment> comments = new ArrayList<>();
+
+    public void addComment(PhotoComment comment) {
+        throw new UnsupportedOperationException("Make me work!");
+    }
+
+    public void removeComment(PhotoComment comment) {
+        throw new UnsupportedOperationException("Make me work!");
+    }
 
 }
