@@ -15,8 +15,9 @@ public class EmployeeProfile {
     @Id
     private Long id;
 
-    @OneToOne
     @MapsId
+    @OneToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Column(nullable = false)
