@@ -48,7 +48,7 @@ public class PhotoDaoImpl implements PhotoDao {
     @Override
     public void addComment(long photoId, String comment) {
         emUtil.performWithinTx(entityManager -> {
-            Photo photoReference = entityManager.getReference(Photo.class, photoId);
+            Photo photoReference = entityManager.getReference(Photo.class, photoId);// does not call database
             PhotoComment photoComment = new PhotoComment(comment, photoReference);
             entityManager.persist(photoComment);
         });
