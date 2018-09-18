@@ -35,14 +35,14 @@ public class Photo {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String url;
 
     @Column(nullable = false)
     private String description;
 
     @Setter(AccessLevel.PRIVATE)
-    @OneToMany(mappedBy = "photo")
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PhotoComment> comments = new ArrayList<>();
 
     public void addComment(PhotoComment comment) {
