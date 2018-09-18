@@ -12,8 +12,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.JoinColumn;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
@@ -91,6 +93,14 @@ public class CompanyProductMappingTest {
     }
 
     @Test
+    public void testForeignKeyColumnIsSpecified() throws NoSuchFieldException {
+        Field company = Product.class.getDeclaredField("company");
+        JoinColumn joinColumn = company.getAnnotation(JoinColumn.class);
+
+        assertThat(joinColumn.name(), equalTo("company_id"));
+    }
+
+    @Test
     public void testSaveProductAndCompany() {
         var company = createRandomCompany();
         var product = createRandomProduct();
@@ -120,6 +130,7 @@ public class CompanyProductMappingTest {
             entityManager.persist(product);
             var managedCompany = entityManager.merge(company);
             managedCompany.addProduct(product);
+            assertThat(managedCompany.getProducts(),hasItem(product));
         });
 
         assertThat(product.getCompany(), equalTo(company));
@@ -145,6 +156,7 @@ public class CompanyProductMappingTest {
             var managedProduct = entityManager.find(Product.class, product.getId());
             var managedCompany = entityManager.find(Company.class, company.getId());
             managedCompany.removeProduct(managedProduct);
+            assertThat(managedCompany.getProducts(), not(hasItem(managedProduct)));
         });
 
         emUtil.performWithinTx(entityManager -> {
