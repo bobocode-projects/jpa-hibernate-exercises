@@ -8,10 +8,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
+import javax.persistence.*;
+import java.lang.reflect.Field;
 import java.util.function.Consumer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,6 +40,14 @@ public class EmployeeProfileMappingTest {
         emUtil.performWithinTx(entityManager -> entityManager.persist(employee));
 
         assertThat(employee.getId(), notNullValue());
+    }
+
+    private Employee createRandomEmployee() {
+        Employee employee = new Employee();
+        employee.setEmail(RandomStringUtils.randomAlphabetic(15));
+        employee.setFistName(RandomStringUtils.randomAlphabetic(15));
+        employee.setLastName(RandomStringUtils.randomAlphabetic(15));
+        return employee;
     }
 
     @Test
@@ -91,6 +97,13 @@ public class EmployeeProfileMappingTest {
         } catch (Exception e) {
             assertTrue(e instanceof PersistenceException);
         }
+    }
+
+    private EmployeeProfile createRandomEmployeeProfile() {
+        EmployeeProfile employeeProfile = new EmployeeProfile();
+        employeeProfile.setDepartment(RandomStringUtils.randomAlphabetic(15));
+        employeeProfile.setPosition(RandomStringUtils.randomAlphabetic(15));
+        return employeeProfile;
     }
 
     @Test
@@ -167,18 +180,28 @@ public class EmployeeProfileMappingTest {
         }
     }
 
-    private Employee createRandomEmployee() {
-        Employee employee = new Employee();
-        employee.setEmail(RandomStringUtils.randomAlphabetic(15));
-        employee.setFistName(RandomStringUtils.randomAlphabetic(15));
-        employee.setLastName(RandomStringUtils.randomAlphabetic(15));
-        return employee;
+    @Test
+    public void testForeignKeyColumnHasCorrectName() throws NoSuchFieldException {
+        Field employee = EmployeeProfile.class.getDeclaredField("employee");
+        JoinColumn joinColumn = employee.getAnnotation(JoinColumn.class);
+        String foreignKeyColumnName = joinColumn.name();
+
+        assertThat(foreignKeyColumnName, equalTo("employee_id"));
     }
 
-    private EmployeeProfile createRandomEmployeeProfile() {
-        EmployeeProfile employeeProfile = new EmployeeProfile();
-        employeeProfile.setDepartment(RandomStringUtils.randomAlphabetic(15));
-        employeeProfile.setPosition(RandomStringUtils.randomAlphabetic(15));
-        return employeeProfile;
+    @Test
+    public void testEmployeeTableHasCorrectName() {
+        Table table = Employee.class.getAnnotation(Table.class);
+        String tableName = table.name();
+
+        assertThat(tableName, equalTo("employee"));
+    }
+
+    @Test
+    public void testEmployeeProfileTableHasCorrectName() {
+        Table table = EmployeeProfile.class.getAnnotation(Table.class);
+        String tableName = table.name();
+
+        assertThat(tableName, equalTo("employee_profile"));
     }
 }
