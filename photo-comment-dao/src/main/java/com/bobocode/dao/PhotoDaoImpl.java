@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class PhotoDaoImpl implements PhotoDao {
-    private EntityManagerFactory entityManagerFactory;
     private EntityManagerUtil emUtil;
 
     public PhotoDaoImpl(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
         this.emUtil = new EntityManagerUtil(entityManagerFactory);
     }
 
