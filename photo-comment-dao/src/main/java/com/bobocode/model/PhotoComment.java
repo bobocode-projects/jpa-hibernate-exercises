@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * todo:
- * - implement not argument constructor
+ * - implement no argument constructor
  * - implement getters and setters
  * - implement equals and hashCode based on identifier field
  *
