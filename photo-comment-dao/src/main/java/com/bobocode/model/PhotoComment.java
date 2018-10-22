@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * - implement equals and hashCode based on identifier field
  *
  * - configure JPA entity
- * - specify table name: "photo_comments"
+ * - specify table name: "photo_comment"
  * - configure auto generated identifier
  * - configure not nullable column: text
  *
