@@ -1,8 +1,11 @@
 package com.bobocode.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.service.spi.InjectService;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,11 +28,24 @@ import java.util.List;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@Entity
+@EqualsAndHashCode(of = "id")
+@Table(name = "photo")
 public class Photo {
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(nullable = false, unique = true)
     private String url;
+
+    @Column(nullable = false)
     private String description;
-    private List<PhotoComment> comments;
+
+    @Setter(AccessLevel.PRIVATE)
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PhotoComment> comments = new ArrayList<>();
 
     public void addComment(PhotoComment comment) {
         throw new UnsupportedOperationException("Make me work!");
