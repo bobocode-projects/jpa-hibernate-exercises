@@ -24,12 +24,19 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account findById(Long id) {
-        throw new UnsupportedOperationException("I don't wanna work without implementation!"); // todo
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Account foundAccount = em.find(Account.class, id);
+        em.close();
+        return foundAccount;
     }
 
     @Override
     public Account findByEmail(String email) {
-        throw new UnsupportedOperationException("I don't wanna work without implementation!"); // todo
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.close();
+        return null;
     }
 
     @Override
@@ -44,7 +51,11 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void remove(Account account) {
-        throw new UnsupportedOperationException("I don't wanna work without implementation!"); // todo
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.remove(em.merge(account));
+        em.getTransaction().commit();
+        em.close();
     }
 }
 
