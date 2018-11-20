@@ -2,6 +2,7 @@ package com.bobocode.dao;
 
 import com.bobocode.model.Account;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
@@ -14,7 +15,11 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void save(Account account) {
-        throw new UnsupportedOperationException("I don't wanna work without implementation!"); // todo
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.persist(account);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
