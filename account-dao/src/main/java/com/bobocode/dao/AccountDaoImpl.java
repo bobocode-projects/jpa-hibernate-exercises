@@ -29,24 +29,24 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public Account findById(Long id) {
         return performOperationWithReturnData(entityManager ->
-           entityManager.createQuery("select a from Account a where a.id = :id", Account.class)
-           .setParameter("id", id)
-           .getSingleResult());
+                entityManager.createQuery("select a from Account a where a.id = :id", Account.class)
+                        .setParameter("id", id)
+                        .getSingleResult());
     }
 
     @Override
     public Account findByEmail(String email) {
         return performOperationWithReturnData(entityManager ->
-           entityManager.createQuery("select a from Account a where a.email = :email", Account.class)
-           .setParameter("email", email)
-           .getSingleResult());
+                entityManager.createQuery("select a from Account a where a.email = :email", Account.class)
+                        .setParameter("email", email)
+                        .getSingleResult());
     }
 
     @Override
     public List<Account> findAll() {
         return performOperationWithReturnData(entityManager ->
                 entityManager.createQuery("select a from Account a", Account.class)
-                .getResultList());
+                        .getResultList());
     }
 
     @Override
@@ -57,12 +57,17 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void remove(Account account) {
-        performOperationWithoutReturnData(entityManager ->
-        {
-            Account removeAccount = entityManager.merge(account);
+//        performOperationWithoutReturnData(entityManager ->
+//        {
+//            Account removeAccount = entityManager.merge(account);
+//            entityManager.remove(removeAccount);
+//        });
+        performOperationWithoutReturnData(entityManager -> {
+            Account removeAccount = entityManager.find(Account.class, account.getId());
             entityManager.remove(removeAccount);
         });
     }
+
 
     public static void performOperationWithoutReturnData(Consumer<EntityManager> consumer) {
         EntityManager entityManager = emf.createEntityManager();
@@ -87,6 +92,8 @@ public class AccountDaoImpl implements AccountDao {
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             throw new AccountDaoException("Transaction rejected", e);
+        } finally {
+            entityManager.close();
         }
         return result;
     }
