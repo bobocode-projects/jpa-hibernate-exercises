@@ -15,7 +15,7 @@ import lombok.Setter;
  * - configure auto generated identifier
  * - configure mandatory column "name" for field {@link Product#name}
  * <p>
- * - configure many-to-one relation between {@link Product} and {@link Company}
+ * - configure lazy many-to-one relation between {@link Product} and {@link Company}
  * - configure foreign key column "company_id" references company table
  */
 @NoArgsConstructor
