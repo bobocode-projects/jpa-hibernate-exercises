@@ -1,10 +1,19 @@
 package com.bobocode.model;
 
-import lombok.*;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * todo:
@@ -26,16 +35,26 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
+@Entity
+@Table(name = "company")
 public class Company {
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Setter(AccessLevel.PRIVATE)
+    @OneToMany(mappedBy = "company", orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
     public void addProduct(Product product) {
-        throw new UnsupportedOperationException("I'm still not implemented!");
+        products.add(product);
+        product.setCompany(this);
     }
 
     public void removeProduct(Product product) {
-        throw new UnsupportedOperationException("I'm still not implemented!");
+        products.remove(product);
+        product.setCompany(null);
     }
 }
