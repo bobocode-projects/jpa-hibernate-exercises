@@ -1,12 +1,11 @@
 package com.bobocode;
 
-import com.bobocode.exception.QueryHelperException;
-import org.hibernate.Session;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.Collection;
 import java.util.function.Function;
+
+import com.bobocode.exception.QueryHelperException;
+import org.hibernate.Session;
 
 /**
  * {@link QueryHelper} provides a util method that allows to perform read operations in the scope of transaction
@@ -31,6 +30,19 @@ public class QueryHelper {
      * @return query result specified by type T
      */
     public <T> T readWithinTx(Function<EntityManager, T> entityManagerConsumer) {
-        throw new UnsupportedOperationException("I'm waiting for you to do your job and make me work ;)"); // todo:
+        Session session = (Session) entityManagerFactory.createEntityManager();
+
+        session.getTransaction().begin();
+        try {
+            T object = entityManagerConsumer.apply(session);
+            session.setReadOnly(object, true);
+            session.getTransaction().commit();
+            return object;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new QueryHelperException("Transaction is rolled back", e.getCause());
+        } finally {
+            session.close();
+        }
     }
 }
