@@ -18,6 +18,7 @@
         <module>photo-comment-dao</module>
         <module>author-book</module>
         <module>company-products</module>
+        <module>online-banking-app</module>
     </modules>
     <packaging>pom</packaging>
 
