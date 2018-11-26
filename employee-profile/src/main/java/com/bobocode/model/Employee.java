@@ -15,7 +15,6 @@ import lombok.Setter;
  * - configure auto generated identifier
  * - configure not nullable columns: email, firstName, lastName
  *
- * - initialize field comments
  * - map unidirectional relation between {@link Employee} and {@link EmployeeProfile} on the child side
  */
 @NoArgsConstructor
