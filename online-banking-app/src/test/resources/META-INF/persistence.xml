@@ -1,0 +1,24 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="OnlineBankingTest">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.bobocode.entity.User</class>
+        <class>com.bobocode.entity.Card</class>
+        <class>com.bobocode.entity.Payment</class>
+
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
+            <property name="hibernate.connection.url" value="jdbc:h2:mem:online-banking-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false"/>
+            <property name="hibernate.connection.user" value="user"/>
+            <property name="hibernate.connection.password" value="password"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>

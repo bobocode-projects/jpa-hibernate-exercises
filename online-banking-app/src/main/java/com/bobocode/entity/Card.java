@@ -1,5 +1,6 @@
 package com.bobocode.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,21 +11,27 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "card")
-public class Card {
+public class Card implements IdNumber {
     @Id
     @GeneratedValue
     private Long id;
@@ -39,12 +46,13 @@ public class Card {
     private int cvv2;
 
     @Column(name = "balance")
-    private long balance;
+    private Long balance;
 
     @ManyToOne(optional = false)
     private User user;
 
-    @OneToMany(mappedBy = "card", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "card", orphanRemoval = true, fetch = FetchType.EAGER)
+    @Builder.Default
     @Setter(AccessLevel.PRIVATE)
     private List<Payment> payments = new ArrayList<>();
 
@@ -55,5 +63,6 @@ public class Card {
 
     public void removePayment(Payment payment) {
         payments.remove(payment);
+        payment.setCard(null);
     }
 }

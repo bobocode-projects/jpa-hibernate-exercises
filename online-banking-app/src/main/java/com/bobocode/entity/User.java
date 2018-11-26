@@ -7,16 +7,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of="id")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "user_table")
-public class User {
+public class User implements IdNumber{
     @Id
     @GeneratedValue
     private Long id;
@@ -34,5 +42,5 @@ public class User {
     private String passportNumber;
 
     @Column(name = "tax_number", nullable = false, unique = true)
-    private long taxNumber;
+    private Long taxNumber;
 }
