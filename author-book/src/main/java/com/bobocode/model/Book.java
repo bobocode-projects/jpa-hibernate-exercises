@@ -1,11 +1,18 @@
 package com.bobocode.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
+
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * todo:
@@ -26,9 +33,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode(of = "isbn")
+@Entity
 public class Book {
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+    @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
-    private Set<Author> authors;
+    @ManyToMany(mappedBy = "books")
+    @Setter(AccessLevel.PRIVATE)
+    private Set<Author> authors = new HashSet<>();
 }

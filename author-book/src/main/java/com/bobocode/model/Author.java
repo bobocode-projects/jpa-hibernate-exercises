@@ -1,12 +1,21 @@
 package com.bobocode.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.CascadeType;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * todo:
@@ -34,17 +43,47 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Author {
+    @Id
+    @GeneratedValue
     private Long id;
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    private Set<Book> books;
+
+    @JoinTable(name = "author_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Setter(AccessLevel.PRIVATE)
+    private Set<Book> books = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(id, author.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 
     public void addBook(Book book) {
-        throw new UnsupportedOperationException("Are you kidding me?");
+        books.add(book);
+        Set<Author> authors = book.getAuthors();
+        authors.add(this);
     }
 
     public void removeBook(Book book) {
-        throw new UnsupportedOperationException("Are you kidding me?");
+        books.remove(book);
+        Set<Author> authors = book.getAuthors();
+        authors.remove(this);
     }
+
+
 }
