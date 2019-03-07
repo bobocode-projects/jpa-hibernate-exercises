@@ -57,17 +57,10 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     private void performWithinPersistenceContext(Consumer<EntityManager> entityManagerConsumer) {
-        EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-        try {
+        performReturningWithinPersistenceContext(entityManager -> {
             entityManagerConsumer.accept(entityManager);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw new AccountDaoException("Error performing dao operation. Transaction is rolled back!", e);
-        } finally {
-            entityManager.close();
-        }
+            return Void.TYPE;
+        });
 
     }
 
