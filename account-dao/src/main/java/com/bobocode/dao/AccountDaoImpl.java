@@ -59,9 +59,8 @@ public class AccountDaoImpl implements AccountDao {
     private void performWithinPersistenceContext(Consumer<EntityManager> entityManagerConsumer) {
         performReturningWithinPersistenceContext(entityManager -> {
             entityManagerConsumer.accept(entityManager);
-            return Void.TYPE;
+            return null;
         });
-
     }
 
     private <T> T performReturningWithinPersistenceContext(Function<EntityManager, T> entityManagerFunction) {
