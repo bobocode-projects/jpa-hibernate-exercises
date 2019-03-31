@@ -1,6 +1,7 @@
 package com.bobocode.model;
 
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class Book {
     @Column(nullable = false)
     private String name;
 
+    @NaturalId
     @Column(nullable = false, unique = true)
     private String isbn;
 
