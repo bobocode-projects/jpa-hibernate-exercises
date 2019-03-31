@@ -19,7 +19,7 @@ import java.util.Set;
  * - specify table name: "book"
  * - configure auto generated identifier
  * - configure mandatory column "name" for field {@link Book#name}
- * - configure mandatory unique column "isbn" for field {@link Book#isbn}
+ * - configure mandatory unique column "isbn" for field {@link Book#isbn}, it is a natural key candidate
  * <p>
  * - configure many-to-many relation as mapped on the {@link Author} side
  */

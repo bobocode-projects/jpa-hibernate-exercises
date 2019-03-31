@@ -4,6 +4,7 @@ import com.bobocode.model.Author;
 import com.bobocode.model.Book;
 import com.bobocode.util.EntityManagerUtil;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.Session;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -269,5 +270,17 @@ public class AuthorBookMappingTest {
         assertThat(joinTable.inverseJoinColumns()[0].name(), equalTo("book_id"));
     }
 
+    @Test
+    public void testBookIsbnIsNaturalKey() {
+        Book book = createRandomBook();
+        emUtil.performWithinTx(entityManager -> entityManager.persist(book));
 
+        Book foundBook = emUtil.performReturningWithinTx(entityManager -> {
+            Session session = entityManager.unwrap(Session.class);
+            return session.bySimpleNaturalId(Book.class)
+                    .load(book.getIsbn());
+        });
+
+        assertThat(foundBook, equalTo(book));
+    }
 }
