@@ -160,7 +160,7 @@ class AccountDaoTest {
             accountDao.save(invalidAccount);
             fail("AccountDaoException should be thrown");
         } catch (Exception e) {
-            assertEquals(e.getClass(), AccountDaoException.class);
+            assertEquals(AccountDaoException.class, e.getClass());
         }
     }
 
@@ -175,7 +175,7 @@ class AccountDaoTest {
 
             fail("AccountDaoException should be thrown");
         } catch (Exception e) {
-            assertEquals(e.getClass(), AccountDaoException.class);
+            assertEquals(AccountDaoException.class, e.getClass());
         }
     }
 
