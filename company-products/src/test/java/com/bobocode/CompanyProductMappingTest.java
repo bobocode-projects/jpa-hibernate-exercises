@@ -19,12 +19,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class CompanyProductMappingTest {
+class CompanyProductMappingTest {
     private static EntityManagerUtil emUtil;
     private static EntityManagerFactory entityManagerFactory;
     private static CompanyDao companyDao;
@@ -42,7 +44,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testSaveCompany() {
+    void testSaveCompany() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -56,7 +58,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testSaveProduct() {
+    void testSaveProduct() {
         var product = createRandomProduct();
 
         emUtil.performWithinTx(entityManager -> entityManager.persist(product));
@@ -69,7 +71,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testSaveCompanyWithNullName() {
+    void testSaveCompanyWithNullName() {
         var company = new Company();
 
         try {
@@ -81,7 +83,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testSaveProductWithNullName() {
+    void testSaveProductWithNullName() {
         var product = new Product();
 
         try {
@@ -93,7 +95,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testForeignKeyColumnIsSpecified() throws NoSuchFieldException {
+    void testForeignKeyColumnIsSpecified() throws NoSuchFieldException {
         Field company = Product.class.getDeclaredField("company");
         JoinColumn joinColumn = company.getAnnotation(JoinColumn.class);
 
@@ -101,7 +103,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testSaveProductAndCompany() {
+    void testSaveProductAndCompany() {
         var company = createRandomCompany();
         var product = createRandomProduct();
 
@@ -121,7 +123,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testAddNewProductToExistingCompany() {
+    void testAddNewProductToExistingCompany() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -130,7 +132,7 @@ public class CompanyProductMappingTest {
             entityManager.persist(product);
             var managedCompany = entityManager.merge(company);
             managedCompany.addProduct(product);
-            assertThat(managedCompany.getProducts(),hasItem(product));
+            assertThat(managedCompany.getProducts(), hasItem(product));
         });
 
         assertThat(product.getCompany(), equalTo(company));
@@ -142,7 +144,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testRemoveProductFromCompany() {
+    void testRemoveProductFromCompany() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -166,7 +168,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testCompanyToProductsIsLazy() {
+    void testCompanyToProductsIsLazy() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -187,7 +189,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testProductsToCompanyIsLazy() {
+    void testProductsToCompanyIsLazy() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -208,7 +210,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testFindByIdFetchesProducts() {
+    void testFindByIdFetchesProducts() {
         var company = createRandomCompany();
         emUtil.performWithinTx(entityManager -> entityManager.persist(company));
 
@@ -224,7 +226,7 @@ public class CompanyProductMappingTest {
     }
 
     @Test
-    public void testCompanySetProductsIsPrivate() throws NoSuchMethodException {
+    void testCompanySetProductsIsPrivate() throws NoSuchMethodException {
         assertThat(Company.class.getDeclaredMethod("setProducts", List.class).getModifiers(), equalTo(Modifier.PRIVATE));
     }
 }

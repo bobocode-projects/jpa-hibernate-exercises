@@ -8,9 +8,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.*;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.JoinColumn;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.persistence.Table;
 import java.lang.reflect.Field;
-import java.util.function.Consumer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -18,7 +21,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class EmployeeProfileMappingTest {
+class EmployeeProfileMappingTest {
     private static EntityManagerUtil emUtil;
     private static EntityManagerFactory entityManagerFactory;
 
@@ -34,7 +37,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveEmployeeOnly() {
+    void testSaveEmployeeOnly() {
         Employee employee = createRandomEmployee();
 
         emUtil.performWithinTx(entityManager -> entityManager.persist(employee));
@@ -51,7 +54,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveEmployeeWithoutEmail() {
+    void testSaveEmployeeWithoutEmail() {
         Employee employee = createRandomEmployee();
         employee.setEmail(null);
         try {
@@ -63,7 +66,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveEmployeeFirstName() {
+    void testSaveEmployeeFirstName() {
         Employee employee = createRandomEmployee();
         employee.setFistName(null);
         try {
@@ -75,7 +78,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveEmployeeLastName() {
+    void testSaveEmployeeLastName() {
         Employee employee = createRandomEmployee();
         employee.setLastName(null);
         try {
@@ -87,7 +90,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveEmployeeProfileOnly() {
+    void testSaveEmployeeProfileOnly() {
         EmployeeProfile employeeProfile = createRandomEmployeeProfile();
         employeeProfile.setId(666L);
 
@@ -107,7 +110,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testSaveBothEmployeeAndEmployeeProfile() {
+    void testSaveBothEmployeeAndEmployeeProfile() {
         Employee employee = createRandomEmployee();
         EmployeeProfile employeeProfile = createRandomEmployeeProfile();
 
@@ -123,7 +126,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testAddEmployeeProfile() {
+    void testAddEmployeeProfile() {
         Employee employee = createRandomEmployee();
         emUtil.performWithinTx(entityManager -> entityManager.persist(employee));
         long employeeId = employee.getId();
@@ -141,7 +144,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testAddEmployeeWithoutPosition() {
+    void testAddEmployeeWithoutPosition() {
         Employee employee = createRandomEmployee();
         emUtil.performWithinTx(entityManager -> entityManager.persist(employee));
         long employeeId = employee.getId();
@@ -161,7 +164,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testAddEmployeeWithoutDepartment() {
+    void testAddEmployeeWithoutDepartment() {
         Employee employee = createRandomEmployee();
         emUtil.performWithinTx(entityManager -> entityManager.persist(employee));
         long employeeId = employee.getId();
@@ -181,7 +184,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testForeignKeyColumnHasCorrectName() throws NoSuchFieldException {
+    void testForeignKeyColumnHasCorrectName() throws NoSuchFieldException {
         Field employee = EmployeeProfile.class.getDeclaredField("employee");
         JoinColumn joinColumn = employee.getAnnotation(JoinColumn.class);
         String foreignKeyColumnName = joinColumn.name();
@@ -190,7 +193,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testEmployeeTableHasCorrectName() {
+    void testEmployeeTableHasCorrectName() {
         Table table = Employee.class.getAnnotation(Table.class);
         String tableName = table.name();
 
@@ -198,7 +201,7 @@ public class EmployeeProfileMappingTest {
     }
 
     @Test
-    public void testEmployeeProfileTableHasCorrectName() {
+    void testEmployeeProfileTableHasCorrectName() {
         Table table = EmployeeProfile.class.getAnnotation(Table.class);
         String tableName = table.name();
 
