@@ -20,7 +20,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isIn;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -142,7 +145,7 @@ class AccountDaoTest {
     }
 
     @Test
-    public void testRemoveAccount() {
+    void testRemoveAccount() {
         Account account = TestDataGenerator.generateAccount();
         saveTestAccount(account);
 
@@ -153,7 +156,7 @@ class AccountDaoTest {
     }
 
     @Test
-    public void testSaveInvalidAccount() {
+    void testSaveInvalidAccount() {
         try {
             Account invalidAccount = TestDataGenerator.generateAccount();
             invalidAccount.setEmail(null);
@@ -165,7 +168,7 @@ class AccountDaoTest {
     }
 
     @Test
-    public void testUpdateInvalidAccount() {
+    void testUpdateInvalidAccount() {
         try {
             Account account = TestDataGenerator.generateAccount();
             saveTestAccount(account);

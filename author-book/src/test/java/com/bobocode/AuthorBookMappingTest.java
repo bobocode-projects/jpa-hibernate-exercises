@@ -9,7 +9,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javax.persistence.*;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.JoinTable;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -18,10 +22,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class AuthorBookMappingTest {
+class AuthorBookMappingTest {
     private static EntityManagerUtil emUtil;
     private static EntityManagerFactory entityManagerFactory;
 
@@ -37,7 +46,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveBookOnly() {
+    void testSaveBookOnly() {
         Book book = createRandomBook();
 
         emUtil.performWithinTx(entityManager -> entityManager.persist(book));
@@ -53,7 +62,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveBookWithoutName() {
+    void testSaveBookWithoutName() {
         Book book = createRandomBook();
         book.setName(null);
         try {
@@ -65,7 +74,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveBookWithDuplicateIsbn() {
+    void testSaveBookWithDuplicateIsbn() {
         Book book = createRandomBook();
         emUtil.performWithinTx(entityManager -> entityManager.persist(book));
         Book bookWithDuplicateIsbn = createRandomBook();
@@ -80,7 +89,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveAuthorOnly() {
+    void testSaveAuthorOnly() {
         Author author = createRandomAuthor();
 
         emUtil.performWithinTx(entityManager -> entityManager.persist(author));
@@ -96,7 +105,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveAuthorWithoutFirstName() {
+    void testSaveAuthorWithoutFirstName() {
         Author authorWithNullFirstName = createRandomAuthor();
         authorWithNullFirstName.setFirstName(null);
         try {
@@ -108,7 +117,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveAuthorWithoutLastName() {
+    void testSaveAuthorWithoutLastName() {
         Author authorWithNullLastName = createRandomAuthor();
         authorWithNullLastName.setLastName(null);
         try {
@@ -120,7 +129,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testAddNewBookForExistingAuthor() {
+    void testAddNewBookForExistingAuthor() {
         Author author = createRandomAuthor();
         emUtil.performWithinTx(entityManager -> entityManager.persist(author));
 
@@ -139,7 +148,7 @@ public class AuthorBookMappingTest {
 
 
     @Test
-    public void testAddAuthorToExistingBook() {
+    void testAddAuthorToExistingBook() {
         Book book = createRandomBook();
         emUtil.performWithinTx(entityManager -> entityManager.persist(book));
 
@@ -158,7 +167,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testSaveNewAuthorWithCoupleNewBooks() {
+    void testSaveNewAuthorWithCoupleNewBooks() {
         Author author = createRandomAuthor();
         List<Book> bookList = Stream.generate(this::createRandomBook).limit(3).collect(Collectors.toList());
         bookList.forEach(author::addBook);
@@ -167,7 +176,7 @@ public class AuthorBookMappingTest {
 
         assertThat(author.getId(), notNullValue());
         assertThat(author.getBooks(), containsInAnyOrder(bookList.toArray()));
-        bookList.forEach(book -> assertThat(book.getAuthors(),hasItem(author)));
+        bookList.forEach(book -> assertThat(book.getAuthors(), hasItem(author)));
         emUtil.performWithinTx(entityManager -> {
             Author managedAuthor = entityManager.find(Author.class, author.getId());
             assertThat(managedAuthor.getBooks(), containsInAnyOrder(bookList.toArray()));
@@ -175,7 +184,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testRemoveBookFromAuthor() {
+    void testRemoveBookFromAuthor() {
         Author author = createRandomAuthor();
         Book book = createRandomBook();
         author.addBook(book);
@@ -194,7 +203,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testRemoveAuthor() {
+    void testRemoveAuthor() {
         Author author = createRandomAuthor();
         Book book = createRandomBook();
         author.addBook(book);
@@ -215,7 +224,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testRemoveBook() {
+    void testRemoveBook() {
         Author author = createRandomAuthor();
         Book book = createRandomBook();
         author.addBook(book);
@@ -228,7 +237,7 @@ public class AuthorBookMappingTest {
         });
 
         emUtil.performWithinTx(entityManager -> {
-            Book foundBook= entityManager.find(Book.class, book.getId());
+            Book foundBook = entityManager.find(Book.class, book.getId());
             assertThat(foundBook, nullValue());
 
             Author managedAuthor = entityManager.find(Author.class, author.getId());
@@ -237,17 +246,17 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testBookSetAuthorsIsPrivate() throws NoSuchMethodException {
+    void testBookSetAuthorsIsPrivate() throws NoSuchMethodException {
         assertThat(Book.class.getDeclaredMethod("setAuthors", Set.class).getModifiers(), equalTo(Modifier.PRIVATE));
     }
 
     @Test
-    public void testAuthorSetBooksIsPrivate() throws NoSuchMethodException {
+    void testAuthorSetBooksIsPrivate() throws NoSuchMethodException {
         assertThat(Author.class.getDeclaredMethod("setBooks", Set.class).getModifiers(), equalTo(Modifier.PRIVATE));
     }
 
     @Test
-    public void testAuthorBookLinkTableHasCorrectName() throws NoSuchFieldException {
+    void testAuthorBookLinkTableHasCorrectName() throws NoSuchFieldException {
         Field booksField = Author.class.getDeclaredField("books");
         JoinTable joinTable = booksField.getAnnotation(JoinTable.class);
 
@@ -255,7 +264,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testLinkTableHasCorrectForeignKeyColumnNameToAuthor() throws NoSuchFieldException {
+    void testLinkTableHasCorrectForeignKeyColumnNameToAuthor() throws NoSuchFieldException {
         Field booksField = Author.class.getDeclaredField("books");
         JoinTable joinTable = booksField.getAnnotation(JoinTable.class);
 
@@ -263,7 +272,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testLinkTableHasCorrectForeignKeyColumnNameToBook() throws NoSuchFieldException {
+    void testLinkTableHasCorrectForeignKeyColumnNameToBook() throws NoSuchFieldException {
         Field booksField = Author.class.getDeclaredField("books");
         JoinTable joinTable = booksField.getAnnotation(JoinTable.class);
 
@@ -271,7 +280,7 @@ public class AuthorBookMappingTest {
     }
 
     @Test
-    public void testBookIsbnIsNaturalKey() {
+    void testBookIsbnIsNaturalKey() {
         Book book = createRandomBook();
         emUtil.performWithinTx(entityManager -> entityManager.persist(book));
 
