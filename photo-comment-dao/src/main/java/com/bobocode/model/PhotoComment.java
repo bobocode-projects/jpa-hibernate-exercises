@@ -1,8 +1,8 @@
 package com.bobocode.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -21,9 +21,23 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@Entity
+@Table(name = "photo_comment")
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
 public class PhotoComment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String text;
+    @Column
     private LocalDateTime createdOn;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    public PhotoComment(String text) {
+        this.text = text;
+    }
 }

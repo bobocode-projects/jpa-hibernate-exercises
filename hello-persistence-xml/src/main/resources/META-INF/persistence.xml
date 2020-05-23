@@ -10,5 +10,20 @@
     <!--todo: configure a hibernate connection password: rock_n_roll_is_alive-->
     <!--todo: configure a hibernate SQL dialect for H2 database-->
     <!--todo: configure hibernate generate DDL and create database-->
+    <persistence-unit name="TuttiFrutti">
+        <class>Song</class>
+        <properties>
+            <!-- database connection -->
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:tutti_frutti_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false" />
+            <property name="javax.persistence.jdbc.user" value="little_richard" />
+            <property name="javax.persistence.jdbc.password" value="rock_n_roll_is_alive" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="show_sql" value="true"/>
+<!--            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>-->
+        </properties>
+    </persistence-unit>
 
 </persistence>

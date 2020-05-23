@@ -31,6 +31,18 @@ public class QueryHelper {
      * @return query result specified by type T
      */
     public <T> T readWithinTx(Function<EntityManager, T> entityManagerConsumer) {
-        throw new UnsupportedOperationException("I'm waiting for you to do your job and make me work ;)"); // todo:
+        Session session = this.entityManagerFactory.createEntityManager().unwrap(Session.class);
+        session.setDefaultReadOnly(true);
+        session.getTransaction().begin();
+        try {
+            T result = entityManagerConsumer.apply(session);
+            session.getTransaction().commit();
+            return result;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new QueryHelperException("Error performing query. Transaction is rolled back", e);
+        } finally {
+            session.close();
+        }
     }
 }
